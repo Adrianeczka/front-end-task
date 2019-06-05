@@ -3,7 +3,7 @@
        <v-app id="inspire">
     <v-container fluid grid-list-md>
       <v-data-iterator
-        :items="items"
+        :items="brothers"
         :rows-per-page-items="rowsPerPageItems"
         :pagination.sync="pagination"
         content-tag="v-layout"
@@ -11,44 +11,27 @@
         wrap
       >
         <template v-slot:item="props">
-          <v-flex
-            xs12
-            sm6
-            md4
-            lg3
-          >
+            <v-flex
+          xs12
+          sm6
+          md4
+          lg3
+        >
+
             <v-card>
-              <v-card-title><h4>{{ props.item.name }}</h4></v-card-title>
+              <v-card-title><v-img :src="props.item.images.primary.large"/></v-card-title>
               <v-divider></v-divider>
-              <v-list dense>
+              <v-list>
                 <v-list-tile>
-                  <v-list-tile-content>Calories:</v-list-tile-content>
-                  <v-list-tile-content class="align-end">{{ props.item.calories }}</v-list-tile-content>
+                  <v-list-tile-content>name:</v-list-tile-content>
+                  <v-list-tile-content class="align-end">{{ props.item.brand.name }}</v-list-tile-content>
                 </v-list-tile>
                 <v-list-tile>
-                  <v-list-tile-content>Fat:</v-list-tile-content>
-                  <v-list-tile-content class="align-end">{{ props.item.fat }}</v-list-tile-content>
+                  <v-list-tile-content>Id:</v-list-tile-content>
+                  <v-list-tile-content class="align-end">{{ props.item.id }}</v-list-tile-content>
                 </v-list-tile>
-                <v-list-tile>
-                  <v-list-tile-content>Carbs:</v-list-tile-content>
-                  <v-list-tile-content class="align-end">{{ props.item.carbs }}</v-list-tile-content>
-                </v-list-tile>
-                <v-list-tile>
-                  <v-list-tile-content>Protein:</v-list-tile-content>
-                  <v-list-tile-content class="align-end">{{ props.item.protein }}</v-list-tile-content>
-                </v-list-tile>
-                <v-list-tile>
-                  <v-list-tile-content>Sodium:</v-list-tile-content>
-                  <v-list-tile-content class="align-end">{{ props.item.sodium }}</v-list-tile-content>
-                </v-list-tile>
-                <v-list-tile>
-                  <v-list-tile-content>Calcium:</v-list-tile-content>
-                  <v-list-tile-content class="align-end">{{ props.item.calcium }}</v-list-tile-content>
-                </v-list-tile>
-                <v-list-tile>
-                  <v-list-tile-content>Iron:</v-list-tile-content>
-                  <v-list-tile-content class="align-end">{{ props.item.iron }}</v-list-tile-content>
-                </v-list-tile>
+                <input placeholder="quantity"  type="number"/>
+                <button class="btn btn-outline-dark"><i class="material-icons">add_shopping_cart</i></button>
               </v-list>
             </v-card>
           </v-flex>
@@ -60,28 +43,34 @@
 </template>
 
 <script>
-
+import axios from 'axios'
 export default {
   data () {
     return {
+      brothers: [],
       name: 'Pagination',
       rowsPerPageItems: [4, 8, 12],
-    pagination: {
-      rowsPerPage: 4
-    },
-    items: [
-      {
-        name: 'Frozen Yogurt',
-        calories: 159,
-        fat: 6.0,
-        carbs: 24,
-        protein: 4.0,
-        sodium: 87,
-        calcium: '14%',
-        iron: '1%'
-      }]
+      pagination: {
+        rowsPerPage: 4
+      }
     }
+  },
+  mounted () {
+    axios
+      .get('http://localhost:3005/products')
+      .then(response => {
+        this.brothers = response.data
+      })
+      .catch(error => {
+      console.log(error)
+    })
   }
 }
 
-      </script>
+</script>
+
+      <style>
+      input {
+        color: white;
+      }
+      </style>
