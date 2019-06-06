@@ -5,6 +5,7 @@
       <v-data-iterator
         :items="brothers"
         :search="search"
+        :custom-filter="customFilter"
         :rows-per-page-items="rowsPerPageItems"
         :pagination.sync="pagination"
         content-tag="v-layout"
@@ -97,6 +98,27 @@ export default {
       brothers: []
     }
   },
+  methods: {
+    customFilter (items, search, filter) {
+      search = search.toString().toLowerCase()
+      return items.filter(i => (Object.keys(i).some(j => this.nestedFilter(i[j], search, filter))))
+    },
+    nestedFilter (nestedObj, search, filter) {
+      if (nestedObj === Object(nestedObj)) {
+        for (let key in nestedObj) {
+          if (filter(nestedObj[key], search)) {
+            return true
+          }
+        }
+        return false
+      } else {
+        return filter(nestedObj, search)
+      }
+    }
+  },
+  // components: {
+
+  // },
   mounted () {
     axios
       .get('http://localhost:3005/products')
@@ -104,8 +126,8 @@ export default {
         this.brothers = response.data
       })
       .catch(error => {
-      console.log(error)
-    })
+        console.log(error)
+      })
   }
 }
 
@@ -135,6 +157,6 @@ export default {
         height: 34px;
         width: 40px;
         padding-top: 4px;
-        padding-left: 4px;
+        padding-left: 7px;
       }
       </style>
