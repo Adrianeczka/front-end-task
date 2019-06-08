@@ -1,9 +1,9 @@
 <template>
   <div id="Shop">
-       <v-app id="inspire">
+   <v-app id="inspire">
     <v-container fluid grid-list-md>
       <v-data-iterator
-        :items="brothers"
+        :items="products"
         :search="search"
         :custom-filter="customFilter"
         :rows-per-page-items="rowsPerPageItems"
@@ -38,7 +38,7 @@
         >
             <v-card>
               <v-card-title data-toggle="modal" :data-target="'#exampleModalCenter' + props.item.id" ><img :src="props.item.images.primary.large"/></v-card-title>
-                 <!-- MODAL -->
+
                  <div class="modal fade" :id="['exampleModalCenter' + props.item.id]" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
@@ -55,7 +55,7 @@
       </div>
       <div class="modal-footer">
         <input id="input" class="form-control mr-sm-2" placeholder="quantity"  type="number"/>
-                <button id="button" class="btn btn-outline-dark"><i class="material-icons">add_shopping_cart</i></button>
+                <button id="button" class="btn btn-outline-dark" @click="addToCart(props.item)"><i class="material-icons">add_shopping_cart</i></button>
       </div>
     </div>
   </div>
@@ -72,7 +72,7 @@
                 </v-list-tile>
                 <div class="addtocart">
                 <input id="input" class="form-control mr-sm-2" placeholder="quantity"  type="number"/>
-                <button id="button" class="btn btn-outline-dark"><i class="material-icons">add_shopping_cart</i></button>
+                <button id="button" class="btn btn-outline-dark" @click="addToCart(props.item)"><i class="material-icons">add_shopping_cart</i></button>
                 </div>
               </v-list>
             </v-card>
@@ -81,11 +81,12 @@
       </v-data-iterator>
     </v-container>
   </v-app>
+  {{cart}}
 </div>
 </template>
 
 <script>
-import axios from 'axios'
+import { mapState, mapActions } from 'vuex'
 export default {
   data () {
     return {
@@ -94,14 +95,27 @@ export default {
       pagination: {
         rowsPerPage: 4
       },
-      search: '',
-      brothers: []
+      search: ''
     }
   },
+  mounted () {
+    this.$store.dispatch('getAxios')
+  },
+  computed: {
+    ...mapState([
+      'products', 'cart'
+    ])
+  },
   methods: {
-    customFilter (items, search, filter) {
+    ...mapActions([
+      'setToCart'
+    ]),
+    addToCart (product) {
+      this.setToCart(product)
+    },
+    customFilter (product, search, filter) {
       search = search.toString().toLowerCase()
-      return items.filter(i => (Object.keys(i).some(j => this.nestedFilter(i[j], search, filter))))
+      return product.filter(i => (Object.keys(i).some(j => this.nestedFilter(i[j], search, filter))))
     },
     nestedFilter (nestedObj, search, filter) {
       if (nestedObj === Object(nestedObj)) {
@@ -115,19 +129,6 @@ export default {
         return filter(nestedObj, search)
       }
     }
-  },
-  // components: {
-
-  // },
-  mounted () {
-    axios
-      .get('http://localhost:3005/products')
-      .then(response => {
-        this.brothers = response.data
-      })
-      .catch(error => {
-        console.log(error)
-      })
   }
 }
 
