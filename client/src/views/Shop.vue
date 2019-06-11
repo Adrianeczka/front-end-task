@@ -41,7 +41,7 @@
         >
           <v-card>
             <v-card-title data-toggle="modal" :data-target="'#exampleModalCenter' + props.item.id">
-              <img :src="props.item.images.primary.large"/>
+              <img :src="props.item.images.primary.large">
             </v-card-title>
 <!--Modal-->
                   <div class="modal fade" :id="['exampleModalCenter' + props.item.id]" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
@@ -54,7 +54,7 @@
         </button>
       </div>
       <div class="modadivl-body">
-        <img :src="props.item.images.primary.large"/>
+        <img :src="props.item.images.primary.large">
         <div class="id">Id: {{ props.item.id }}</div>
         <div class="description"> Description: <p v-html="props.item.general.description"/></div>
       </div>
@@ -104,6 +104,9 @@ export default {
   },
   components: {
     Cart
+  },
+  beforeCreate () {
+    this.$store.commit('initialiseStore')
   },
   mounted () {
     this.$store.dispatch('getProducts')
