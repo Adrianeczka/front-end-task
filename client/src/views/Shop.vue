@@ -45,26 +45,26 @@
             </v-card-title>
 <!--Modal-->
                   <div class="modal fade" :id="['exampleModalCenter' + props.item.id]" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLongTitle">{{ props.item.brand.name }}</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modadivl-body">
-        <img :src="props.item.images.primary.large">
-        <div class="id">Id: {{ props.item.id }}</div>
-        <div class="description"> Description: <p v-html="props.item.general.description"/></div>
-      </div>
-      <div class="modal-footer">
-        <input id="input" class="form-control mr-sm-2" placeholder="quantity" @input="updateQuantity($event, props.item)" type="number" step="1" min="1">
-                <button id="button" class="btn btn-outline-dark" @click="addToCart(props.item)"><i class="material-icons">add_shopping_cart</i></button>
-      </div>
-    </div>
-  </div>
-</div>
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title" id="exampleModalLongTitle">{{ props.item.brand.name }}</h5>
+                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                        </div>
+                        <div class="modadivl-body">
+                          <img :src="props.item.images.primary.large">
+                          <div class="id">Id: {{ props.item.id }}</div>
+                          <div class="description"> Description: <p v-html="props.item.general.description"/></div>
+                        </div>
+                        <div class="modal-footer">
+                          <input id="input" class="form-control mr-sm-2" placeholder="quantity" @input="updateQuantity($event, props.item)" type="number" step="1" min="1">
+                                  <button id="button" class="btn btn-outline-dark" @click="addToCart(props.item)"><i class="material-icons">add_shopping_cart</i></button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 <v-list>
                   <v-list-tile>
                     <v-list-tile-content>name:</v-list-tile-content>
@@ -74,10 +74,10 @@
                     <v-list-tile-content>Id:</v-list-tile-content>
                     <v-list-tile-content class="align-end">{{ props.item.id }}</v-list-tile-content>
                   </v-list-tile>
-          <div class="addtocart">
-            <input id="input" class="form-control mr-sm-2" placeholder="quantity" @input="updateQuantity($event, props.item)" type="number" step="1" min="1" >
-            <button id="button" class="btn btn-outline-dark" @click="addToCart(props.item)"><i class="material-icons">add_shopping_cart</i></button>
-          </div>
+                <div class="addtocart">
+                  <input id="input" class="form-control mr-sm-2" placeholder="quantity" @input="updateQuantity($event, props.item)" type="number" step="1" min="1" >
+                  <button id="button" class="btn btn-outline-dark" @click="addToCart(props.item)"><i class="material-icons">add_shopping_cart</i></button>
+                </div>
                 </v-list>
           </v-card>
         </v-flex>
@@ -169,15 +169,5 @@ export default {
         width: 40px;
         padding-top: 4px;
         padding-left: 7px;
-      }
-      table, th, td {
-        background-color: lightgrey;
-        border: 1px solid grey;
-        border-collapse: collapse;
-      }
-      th, td {
-        padding: 15px;
-        text-align: left;
-        width: 250px;
       }
       </style>

@@ -17,6 +17,7 @@
              <td>{{ product.general.name }}</td>
              <td>{{ product.id }}</td>
              <td>{{ product.quantity ? product.quantity : 1 }}</td>
+             <td><button class="btn btn-outline-danger" @click="removeFromCart(product.id)">X</button></td>
             </tr>
           </table>
         </v-menu>
@@ -24,6 +25,24 @@
 
 <script>
 export default {
-  name: 'Cart'
+  name: 'Cart',
+  methods: {
+    removeFromCart (productId) {
+      this.$store.dispatch('removeFromCart', productId)
+    }
+  }
 }
 </script>
+
+<style>
+table, th, td {
+  background-color: white;
+  border: 1px solid grey;
+  border-collapse: collapse;
+}
+th, td {
+  text-align: left;
+  padding: 10px;
+  width: 36%;
+}
+</style>
