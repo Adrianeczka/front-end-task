@@ -6,7 +6,7 @@ Vue.use(Vuex)
 
 const debug = process.env.NODE_ENV !== 'production'
 
-const myPlugin = store => {
+const setCookies = store => {
   store.subscribe((mutation, state) => {
     localStorage.setItem('store', JSON.stringify(state))
   })
@@ -37,7 +37,7 @@ const mutations = {
     state.products = products
   },
   addToCart (state, product) {
-    if (state.cart.indexOf(product) !== -1 && state.product.quantity !== 0) {
+    if (state.cart.indexOf(product) !== -1) {
       Vue.set(state.cart[state.cart.indexOf(product)], product)
     } else {
       state.cart.push(product)
@@ -47,8 +47,8 @@ const mutations = {
     state.products[state.products.indexOf(params.product)].quantity = params.quantity
   },
   removeFromCart (state, productId) {
-    var index = state.cart.findIndex(item => item.id === productId)
-    state.cart.splice(index, 1)
+    var remove = state.cart.findIndex(product => product.id === productId)
+    state.cart.splice(remove, 1)
   },
   initialiseStore (state) {
     if (localStorage.getItem('store')) {
@@ -64,5 +64,5 @@ export default new Vuex.Store({
   strict: debug,
   actions,
   mutations,
-  plugins: [myPlugin]
+  plugins: [setCookies]
 })

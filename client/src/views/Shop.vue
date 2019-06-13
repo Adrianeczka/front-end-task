@@ -48,8 +48,8 @@
                     <div class="modal-dialog modal-dialog-centered" role="document">
                       <div class="modal-content">
                         <div class="modal-header">
-                          <h5 class="modal-title" id="exampleModalLongTitle">{{ props.item.brand.name }}</h5>
-                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <h5 class="modal-title" id="exampleModalLongTitle" dismiss>{{ props.item.brand.name }}</h5>
+                          <button type="button" class="close" data-="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                           </button>
                         </div>
@@ -59,24 +59,24 @@
                           <div class="description"> Description: <p v-html="props.item.general.description"/></div>
                         </div>
                         <div class="modal-footer">
-                          <input id="input" class="form-control mr-sm-2" placeholder="quantity" @input="updateQuantity($event, props.item)" type="number" step="1" min="1">
-                                  <button id="button" class="btn btn-outline-dark" @click="addToCart(props.item)"><i class="material-icons">add_shopping_cart</i></button>
+                          <input :id="props.item.id" class="form-control mr-sm-2" placeholder="quantity" @input="updateQuantity($event, props.item)" type="number" step="1" min="1">
+                                  <button  class="btn btn-outline-dark" @click="addToCart(props.item)"><i class="material-icons">add_shopping_cart</i></button>
                         </div>
                       </div>
                     </div>
                   </div>
                 <v-list>
                   <v-list-tile>
-                    <v-list-tile-content>name:</v-list-tile-content>
-                    <v-list-tile-content class="align-end">{{ props.item.general.name }}</v-list-tile-content>
+                    <v-list-tile-content class="name">name:</v-list-tile-content>
+                    <v-list-tile-content class="productName" >{{ props.item.general.name }}</v-list-tile-content>
                   </v-list-tile>
                   <v-list-tile>
                     <v-list-tile-content>Id:</v-list-tile-content>
                     <v-list-tile-content class="align-end">{{ props.item.id }}</v-list-tile-content>
                   </v-list-tile>
                 <div class="addtocart">
-                  <input id="input" class="form-control mr-sm-2" placeholder="quantity" @input="updateQuantity($event, props.item)" type="number" step="1" min="1" >
-                  <button id="button" class="btn btn-outline-dark" @click="addToCart(props.item)"><i class="material-icons">add_shopping_cart</i></button>
+                  <input :id="props.item.id" class="form-control mr-sm-2" placeholder="quantity" @input="updateQuantity($event, props.item)" type="number" step="1" min="1" >
+                  <button class="btn btn-outline-dark" @click="addToCart(props.item)"><i class="material-icons">add_shopping_cart</i></button>
                 </div>
                 </v-list>
           </v-card>
@@ -122,6 +122,7 @@ export default {
     },
     addToCart (product) {
       this.$store.commit('addToCart', product)
+      document.getElementById(product.id).value = ''
     },
     customFilter (product, search, filter) {
       search = search.toString().toLowerCase()
@@ -147,6 +148,7 @@ export default {
       <style>
       input {
         color: white;
+        width: 30%;
       }
       img {
         height: 100%;
@@ -161,13 +163,16 @@ export default {
          justify-content: center;
          display: flex;
       }
-      #input {
-        width: 30%;
-      }
-      #button {
+      button {
         height: 34px;
         width: 40px;
         padding-top: 4px;
-        padding-left: 7px;
+        padding-left: 4px;
+      }
+      .name {
+        padding-right: 20px;
+      }
+      .productName {
+        margin-left: 40px;
       }
       </style>
